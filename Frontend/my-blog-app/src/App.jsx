@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-} from "react-router-dom";
+import {BrowserRouter as Router,Routes,Route,Link,useNavigate} from "react-router-dom";
 import CreatePost from "./components/CreatePost";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -13,47 +7,47 @@ import Profile from "./components/Profile";
 import BlogPostList from "./components/PostList";
 import BlogPost from "./components/Post";
 import { setAuthToken, refreshAccessToken } from "./components/api";
-import { useAuth } from "./components/AuthProvider"; // Import the useAuth hook
+import { useAuth } from "./components/AuthProvider";
 import ErrorBoundary from "./components/error";
-import ProtectedRoute from "./components/ProtectedRoute"; // Import the ProtectedRoute component
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
-  const { user, login, logout } = useAuth(); // Destructure user and login from useAuth
-  const [showLogoutModal, setShowLogoutModal] = useState(false); // State for logout modal
-  const navigate = useNavigate(); // Initialize navigate
+  const { user, login, logout } = useAuth();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = (username) => {
-    login(username); // Call login function from context
+    login(username);
   };
 
   const handleLogout = () => {
-    setAuthToken(null); // Clear the auth token
-    logout(); // Call logout function from context
-    setShowLogoutModal(false); // Hide the modal after logout
-    navigate("/"); // Navigate to home or desired route after logout
+    setAuthToken(null);
+    logout();
+    setShowLogoutModal(false);
+    navigate("/");
   };
 
   const handleLogoutConfirmation = () => {
-    setShowLogoutModal(true); // Show the logout confirmation modal
+    setShowLogoutModal(true);
   };
 
   const handleModalClose = () => {
-    setShowLogoutModal(false); // Close the logout modal
+    setShowLogoutModal(false);
   };
 
-  // Refresh token periodically
   useEffect(() => {
     const intervalId = setInterval(async () => {
       try {
         await refreshAccessToken();
       } catch (error) {
         console.error("Error refreshing token:", error);
-        logout(); // Logout user if refresh fails
+        logout();
+        s;
       }
-    }, 15 * 60 * 1000); // Refresh every 15 minutes
+    }, 15 * 60 * 1000);
 
     return () => clearInterval(intervalId);
-  }, [logout]); // Ensure logout is stable
+  }, [logout]);
 
   return (
     <ErrorBoundary>
@@ -68,21 +62,21 @@ const App = () => {
             </Link>
           </div>
           <div className="text-white">
-            {user ? ( // Check if user is logged in
+            {user ? (
               <div className="flex items-center">
                 <Link
                   to="/profile"
                   className="mr-4 hover:text-gray-300 flex items-center"
                 >
-                 {user.username}
+                  {user.username}
                   <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3J7fax0r25yrhXbt64ICXsKZ-Clm_txAxmw&s" // Replace with your user icon URL
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3J7fax0r25yrhXbt64ICXsKZ-Clm_txAxmw&s"
                     alt="User Icon"
-                    className="w-5 h-5 mr-2" // Adjust the width and height as needed
+                    className="w-5 h-5 mr-2"
                   />
                 </Link>
                 <button
-                  onClick={handleLogoutConfirmation} // Call confirmation function
+                  onClick={handleLogoutConfirmation}
                   className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
                 >
                   Logout
@@ -121,7 +115,6 @@ const App = () => {
         </Routes>
       </div>
 
-      {/* Logout Confirmation Modal */}
       {showLogoutModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
           <div className="bg-white p-6 rounded-lg shadow-md">

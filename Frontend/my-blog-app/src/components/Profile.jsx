@@ -1,80 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import api from './api';
-import { useAuth } from './AuthProvider';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import api from "./api";
+import { useAuth } from "./AuthProvider";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const [profile, setProfile] = useState({
-    username: '',
-    bio: '',
-    location: '',
-    birth_date: '',
-    profile_picture: '', // Profile picture field
+    username: "",
+    bio: "",
+    location: "",
+    birth_date: "",
+    profile_picture: "",
   });
-  const [profilePicture, setProfilePicture] = useState(null); // State for new profile picture
-  const [editing, setEditing] = useState(false); // State to toggle between view and edit modes
-  const [successMessage, setSuccessMessage] = useState(''); // State for success message
-  const { user } = useAuth(); // Access the logged-in user
-  const baseUrl = 'http://localhost:8000'; // Replace with your actual backend URL
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [editing, setEditing] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const { user } = useAuth();
+  const baseUrl = "http://localhost:8000";
 
-  // Fetch profile data from the API
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await api.get('profile/');
-        console.log('Fetched profile:', response.data);
+        const response = await api.get("profile/");
+        console.log("Fetched profile:", response.data);
         setProfile(response.data);
       } catch (error) {
-        console.error('Error fetching profile:', error);
+        console.error("Error fetching profile:", error);
       }
     };
     fetchProfile();
   }, []);
 
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProfile({ ...profile, [name]: value }); // Update profile state
+    setProfile({ ...profile, [name]: value });
   };
 
-  // Handle file input changes
   const handleFileChange = (e) => {
-    setProfilePicture(e.target.files[0]); // Store the selected image file
+    setProfilePicture(e.target.files[0]);
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('bio', profile.bio);
-    formData.append('location', profile.location);
-    formData.append('birth_date', profile.birth_date);
+    formData.append("bio", profile.bio);
+    formData.append("location", profile.location);
+    formData.append("birth_date", profile.birth_date);
 
     if (profilePicture) {
-      formData.append('profile_picture', profilePicture); // Append profile picture if changed
+      formData.append("profile_picture", profilePicture);
     }
 
     try {
-      // Send a PUT request with formData to update the profile
-      await api.put('profile/', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }, // Required for file upload
+      await api.put("profile/", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
-      setEditing(false); // Exit editing mode after successful update
-      setSuccessMessage('Profile updated successfully!'); // Set success message
-      // Optionally, refresh the profile data to get the latest changes
-      const response = await api.get('profile/'); // Fetch updated profile data
-      setProfile(response.data); // Update the profile state with the latest data
-      // Automatically hide the success message after 3 seconds
+      setEditing(false);
+      setSuccessMessage("Profile updated successfully!");
+      const response = await api.get("profile/");
+      setProfile(response.data);
       setTimeout(() => {
-        setSuccessMessage('');
+        setSuccessMessage("");
       }, 3000);
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error("Error updating profile:", error);
     }
   };
 
-  // Handle loading state
   if (!profile || Object.keys(profile).length === 0) {
     return <div className="text-center text-lg">Loading...</div>;
   }
@@ -87,21 +79,29 @@ const Profile = () => {
             {successMessage}
           </div>
         )}
-        <p className="mb-2"><span className="font-bold">Username:</span> {user.username}</p>
+        <p className="mb-2">
+          <span className="font-bold">Username:</span> {user.username}
+        </p>
 
         {editing ? (
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">Profile Picture:</label>
-              <img 
-                src={profilePicture ? URL.createObjectURL(profilePicture) : `${baseUrl}${profile.profile_picture}`} // Preview selected image or existing one
+              <label className="block text-gray-700 font-bold mb-2">
+                Profile Picture:
+              </label>
+              <img
+                src={
+                  profilePicture
+                    ? URL.createObjectURL(profilePicture)
+                    : `${baseUrl}${profile.profile_picture}`
+                } // Preview selected image or existing one
                 alt="Profile"
                 className="w-32 h-32 rounded-full mx-auto mb-4"
               />
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleFileChange} // Handle file input changes
+                onChange={handleFileChange}
                 className="w-full border rounded p-2"
               />
             </div>
@@ -116,7 +116,9 @@ const Profile = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">Location:</label>
+              <label className="block text-gray-700 font-bold mb-2">
+                Location:
+              </label>
               <input
                 type="text"
                 name="location"
@@ -126,7 +128,9 @@ const Profile = () => {
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 font-bold mb-2">Birth Date:</label>
+              <label className="block text-gray-700 font-bold mb-2">
+                Birth Date:
+              </label>
               <input
                 type="date"
                 name="birth_date"
@@ -144,7 +148,7 @@ const Profile = () => {
               </button>
               <button
                 type="button"
-                onClick={() => setEditing(false)} // Cancel editing
+                onClick={() => setEditing(false)}
                 className="ml-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
               >
                 Cancel
@@ -153,23 +157,37 @@ const Profile = () => {
           </form>
         ) : (
           <div className="text-gray-700">
-            <img 
-              src={profile.profile_picture ? `${baseUrl}${profile.profile_picture}` : 'path/to/default-image.png'} // Fallback image if none exists
+            <img
+              src={
+                profile.profile_picture
+                  ? `${baseUrl}${profile.profile_picture}`
+                  : "path/to/default-image.png"
+              } // Fallback image if none exists
               alt="Profile"
               className="w-32 h-32 rounded-full mx-auto mb-4"
             />
-            <p className="mb-2"><span className="font-bold">Bio:</span> {profile.bio}</p>
-            <p className="mb-2"><span className="font-bold">Location:</span> {profile.location}</p>
-            <p className="mb-2"><span className="font-bold">Birth Date:</span> {profile.birth_date}</p>
+            <p className="mb-2">
+              <span className="font-bold">Bio:</span> {profile.bio}
+            </p>
+            <p className="mb-2">
+              <span className="font-bold">Location:</span> {profile.location}
+            </p>
+            <p className="mb-2">
+              <span className="font-bold">Birth Date:</span>{" "}
+              {profile.birth_date}
+            </p>
             <button
-              onClick={() => setEditing(true)} // Enable editing mode
+              onClick={() => setEditing(true)}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
             >
               Edit Profile
             </button>
           </div>
         )}
-          <Link to="/" className="text-blue-500 hover:underline text-lg block mt-4">
+        <Link
+          to="/"
+          className="text-blue-500 hover:underline text-lg block mt-4"
+        >
           Back to posts
         </Link>
       </div>

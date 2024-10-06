@@ -2,20 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import api from "./api";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Import Quill styles
-import { useAuth } from "./AuthProvider"; // Import AuthProvider to access user info
-
+import "react-quill/dist/quill.snow.css";
+import { useAuth } from "./AuthProvider";
 const BlogPost = () => {
   const { id } = useParams();
-  const { user } = useAuth(); // Get the user from Auth context
+  const { user } = useAuth();
   const [post, setPost] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [author, setAuthor] = useState(""); // State for author
+  const [author, setAuthor] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
-  const baseURL = "http://localhost:8000"; // Update with your server URL
+  const baseURL = "http://localhost:8000";
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const BlogPost = () => {
         setPost(response.data);
         setTitle(response.data.title);
         setContent(response.data.content);
-        setAuthor(response.data.author); // Set the author field
+        setAuthor(response.data.author);
         setImagePreview(`${baseURL}${response.data.image}`);
       } catch (error) {
         console.error("Error fetching the post:", error);
@@ -37,7 +36,6 @@ const BlogPost = () => {
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this post?")) {
       await api.delete(`posts/${id}/`);
-      // Redirect to the home page after deletion
       window.location.href = "/";
     }
   };
@@ -47,7 +45,7 @@ const BlogPost = () => {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
-    formData.append("author", author); // Include the author field
+    formData.append("author", author);
     if (image) {
       formData.append("image", image);
     }
@@ -62,10 +60,10 @@ const BlogPost = () => {
         ...prevPost,
         title,
         content,
-        author, // Update the author field if needed
-        image: imagePreview, // Update the image URL if changed
+        author,
+        image: imagePreview,
       }));
-      setIsEditing(false); // Exit edit mode after updating
+      setIsEditing(false);
       navigate("/posts");
     } catch (error) {
       console.error("Error updating the post:", error);
@@ -78,7 +76,7 @@ const BlogPost = () => {
       setImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result); // Preview the new image
+        setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -125,7 +123,7 @@ const BlogPost = () => {
               />
               {imagePreview && (
                 <img
-                  src={imagePreview} // Preview the new or existing image
+                  src={imagePreview}
                   alt="Preview"
                   className="w-full h-48 object-cover mt-2"
                 />
@@ -158,21 +156,20 @@ const BlogPost = () => {
             </p>
 
             <img
-              src={`${baseURL}${post.image}`} // Use absolute URL for image
+              src={`${baseURL}${post.image}`}
               alt={post.title}
               className="w-full h-48 object-cover mb-4"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = "path/to/placeholder/image.jpg"; // Placeholder image
+                e.target.src = "path/to/placeholder/image.jpg";
               }}
             />
 
             <div
               className="text-lg text-gray-700 leading-relaxed mb-6"
-              dangerouslySetInnerHTML={{ __html: post.content }} // Correctly using dangerouslySetInnerHTML
+              dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
-            {/* Check if the logged-in user is the author */}
             {user && user.username === post.author_username && (
               <div className="flex justify-between mt-4">
                 <button

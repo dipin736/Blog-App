@@ -2,8 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Add this rule to set a background image for the body */
 body {
-    @apply bg-cover bg-center; /* Adjust background to cover the screen and center it */
+    @apply bg-cover bg-center;
     background-image: url('https://img.freepik.com/free-photo/spiral-notepad-laptop-page-isolated-white-background_23-2148061430.jpg');
 }

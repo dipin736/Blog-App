@@ -8,8 +8,8 @@ const BlogPostList = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(5); // Number of posts per page
-  const baseURL = "http://localhost:8000"; // Update with your server URL
+  const [postsPerPage] = useState(5);
+  const baseURL = "http://localhost:8000";
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -21,20 +21,15 @@ const BlogPostList = () => {
 
   const handleCreatePost = (e) => {
     if (!user) {
-      e.preventDefault(); // Prevent navigation if user is not logged in
-      navigate("/login"); // Redirect to login
+      e.preventDefault();
+      navigate("/login");
     }
   };
 
-  // Calculate the current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-
-  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  // Total number of pages
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
   return (
@@ -60,12 +55,12 @@ const BlogPostList = () => {
           >
             <Link to={`/posts/${post.id}`} onClick={handleCreatePost}>
               <img
-                src={`${baseURL}${post.image}`} // Use absolute URL for image
+                src={`${baseURL}${post.image}`}
                 alt={post.title}
                 className="w-full h-48 object-cover"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = "path/to/placeholder/image.jpg"; // Placeholder image
+                  e.target.src = "path/to/placeholder/image.jpg";
                 }}
               />
             </Link>
@@ -79,7 +74,7 @@ const BlogPostList = () => {
                 {post.content.length > 100 ? (
                   <span
                     dangerouslySetInnerHTML={{
-                      __html: post.content.substring(0, 100) + "...", // Add ellipsis
+                      __html: post.content.substring(0, 100) + "...",
                     }}
                   />
                 ) : (
@@ -96,7 +91,6 @@ const BlogPostList = () => {
           </div>
         ))}
       </div>
-      {/* Pagination Controls */}
       <div className="flex justify-center mt-8">
         {Array.from({ length: totalPages }, (_, index) => (
           <button
