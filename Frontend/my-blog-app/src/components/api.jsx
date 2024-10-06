@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/api/",
+  baseURL: "ec2-54-89-124-19.compute-1.amazonaws.com/api/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -71,7 +71,7 @@ api.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true; // Mark request as retried
+      originalRequest._retry = true; 
       try {
         await refreshAccessToken();
         const accessToken = getAccessToken();
