@@ -91,10 +91,11 @@ DATABASES = {
         'NAME': 'blog_db',
         'USER': 'root',
         'PASSWORD': 'root123',
-        'HOST': 'localhost',
+        'HOST': 'mysql',  
         'PORT': '3306',
     }
 }
+
 
 
 
@@ -179,9 +180,9 @@ SIMPLE_JWT = {
 
 # settings.py
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Your frontend URL
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",  
+# ]
 
 
 # Allow all origins for development purposes
