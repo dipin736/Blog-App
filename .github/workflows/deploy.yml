@@ -56,3 +56,4 @@ jobs:
             -p 80:8000 ${{ secrets.DOCKER_USERNAME }}/blog:latest
 
         EOF
+ 
