@@ -33,7 +33,7 @@ RUN pip install -r ./Backend/blog_project/requirements.txt
 
 
 COPY --from=build-stage /code/Frontend/my-blog-app/build /code/Backend/blog_project/media/
-COPY --from=build-stage /code/Frontend/my-blog-app/build/index.html /code/Backend/blog_project/media/
+COPY --from=build-stage /code/Frontend/my-blog-app/dist/index.html /code/Backend/blog_project/media/
 #Run Django Migration Command
 RUN python ./Backend/blog_project/manage.py migrate
 
