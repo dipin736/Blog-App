@@ -93,6 +93,9 @@ DATABASES = {
         'USER': 'BLOG123',
         'PASSWORD': 'blogdatabase',
         'HOST': 'blog123.c3ay86e84jnx.ap-south-1.rds.amazonaws.com',  
+         'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
         'PORT': '3306',
     }
 }
@@ -141,9 +144,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Directory for static files used in development
+    BASE_DIR / "static",
+    # Additional directories with static files (exclude STATIC_ROOT here)
 ]
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
