@@ -34,33 +34,12 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.AWS_EC2_IP }} >> ~/.ssh/known_hosts
 
-    - name: Deploy on AWS EC2 
+       - name: Deploy on AWS EC2 
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.AWS_EC2_IP }} << 'EOF'
-          # Log in to Docker Hub
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-
-          # Create a docker-compose.yml file
-          cat <<EOL > docker-compose.yml
-          version: '3.8'
-
-          services:
-            web:
-              image: ${{ secrets.DOCKER_USERNAME }}/blog:latest
-              command: python ./Backend/blog_project/manage.py runserver 0.0.0.0:8000
-              ports:
-                - "8000:8000"
-          EOL
-
-          # Start the containers
-          docker-compose up -d
+          docker pull ${{ secrets.DOCKER_USERNAME }}/blog:latest:latest
+          docker stop blog:latest || true
+          docker rm blog:latest || true
+          docker run -d --name blog:latest -p 80:8000 ${{ secrets.DOCKER_USERNAME }}/blog:latest:latest
         EOF
-
-        # Optional: Clean up old Docker images to save space
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.AWS_EC2_IP }} << 'EOF'
-          docker image prune -f
-        EOF
-
-
-    - name: Notify Deployment Success
-      run: echo "Deployment to AWS EC2 completed successfully!"
