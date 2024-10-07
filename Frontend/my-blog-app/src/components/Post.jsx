@@ -14,7 +14,7 @@ const BlogPost = () => {
   const [author, setAuthor] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
-  const baseURL = "ec2-3-111-33-23.ap-south-1.compute.amazonaws.com";
+  const baseURL = "http://ec2-3-111-33-23.ap-south-1.compute.amazonaws.com/media/blog_images/";
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -161,7 +161,6 @@ const BlogPost = () => {
               className="w-full h-48 object-cover mb-4"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = "path/to/placeholder/image.jpg";
               }}
             />
 

@@ -9,7 +9,7 @@ const BlogPostList = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
-  const baseURL = "ec2-3-111-33-23.ap-south-1.compute.amazonaws.com";
+  const baseURL = "http://ec2-3-111-33-23.ap-south-1.compute.amazonaws.com/media/profile_pictures/";
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -60,7 +60,6 @@ const BlogPostList = () => {
                 className="w-full h-48 object-cover"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = "path/to/placeholder/image.jpg";
                 }}
               />
             </Link>

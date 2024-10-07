@@ -15,7 +15,7 @@ const Profile = () => {
   const [editing, setEditing] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const { user } = useAuth();
-  const baseUrl = "ec2-3-111-33-23.ap-south-1.compute.amazonaws.com";
+  const baseUrl = "http://ec2-3-111-33-23.ap-south-1.compute.amazonaws.com/media/blog_images/";
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -94,7 +94,7 @@ const Profile = () => {
                   profilePicture
                     ? URL.createObjectURL(profilePicture)
                     : `${baseUrl}${profile.profile_picture}`
-                } // Preview selected image or existing one
+                } 
                 alt="Profile"
                 className="w-32 h-32 rounded-full mx-auto mb-4"
               />
@@ -162,7 +162,7 @@ const Profile = () => {
                 profile.profile_picture
                   ? `${baseUrl}${profile.profile_picture}`
                   : "path/to/default-image.png"
-              } // Fallback image if none exists
+              } 
               alt="Profile"
               className="w-32 h-32 rounded-full mx-auto mb-4"
             />
