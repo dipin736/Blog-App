@@ -92,7 +92,7 @@ DATABASES = {
         'NAME': 'blog',
         'USER': 'blog',
         'PASSWORD': 'blogdatabase',
-        'HOST': 'blog.cf0sww646en1.eu-north-1.rds.amazonaws.com',  
+        'HOST': 'blog.c3ay86e84jnx.ap-south-1.rds.amazonaws.com',  
         'PORT': '3306',
     }
 }
