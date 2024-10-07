@@ -40,7 +40,6 @@ const Register = () => {
       await api.post("register/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Accept": "application/json", 
         },
       });
       setSuccessModal(true);
