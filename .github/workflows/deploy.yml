@@ -34,12 +34,22 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H ${{ secrets.AWS_EC2_IP }} >> ~/.ssh/known_hosts
 
-       - name: Deploy on AWS EC2 
+    - name: Deploy on AWS EC2 
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.AWS_EC2_IP }} << 'EOF'
+          # Log in to Docker Hub
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker pull ${{ secrets.DOCKER_USERNAME }}/blog:latest:latest
-          docker stop blog:latest || true
-          docker rm blog:latest || true
-          docker run -d --name blog:latest -p 80:8000 ${{ secrets.DOCKER_USERNAME }}/blog:latest:latest
+          
+          # Pull the latest image
+          docker pull ${{ secrets.DOCKER_USERNAME }}/blog:latest
+
+          # Stop and remove any existing containers
+          docker stop blog || true
+          docker rm blog || true
+
+          # Run the new container
+          docker run -d --name blog -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/blog:latest
         EOF
+
+    - name: Notify Deployment Success
+      run: echo "Deployment to AWS EC2 completed successfully!"
