@@ -38,6 +38,12 @@ COPY --from=build-stage ./code/Frontend/my-blog-app/build /code/Backend/blog_pro
 COPY --from=build-stage ./code/Frontend/my-blog-app/build/static /code/Backend/blog_project/static/
 COPY --from=build-stage ./code/Frontend/my-blog-app/build/index.html /code/Backend/blog_project/blog_project/templates/index.html
 
+# Ensure media directory exists
+RUN mkdir -p /code/Backend/blog_project/media
+
+# Set MEDIA_ROOT environment variable
+ENV MEDIA_ROOT=/code/Backend/blog_project/media
+
 # Run Django Migration Command
 RUN python ./Backend/blog_project/manage.py migrate
 

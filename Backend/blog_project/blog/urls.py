@@ -9,7 +9,6 @@ urlpatterns = [
     path('posts/<int:pk>/', BlogPostDetailAPIView.as_view(), name='post-detail'),
 ]
 
-# Catch-all for frontend routes
 urlpatterns += [
     re_path(r'^(?:.*)/?$', index),
 ]

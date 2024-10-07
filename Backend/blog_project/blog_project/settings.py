@@ -142,10 +142,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Directory for collectstatic
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Directory for static files used in development
+    os.path.join(BASE_DIR, 'static'),  
 ]
 
 # Default primary key field type
@@ -169,10 +169,10 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # Default: all views need authentication
+        'rest_framework.permissions.IsAuthenticated',  
     ],
      'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',  # Force JSON response
+        'rest_framework.renderers.JSONRenderer',  
     ),
 }
 
@@ -187,9 +187,6 @@ SIMPLE_JWT = {
 
 # settings.py
 
-
-
-# Allow all origins for development purposes
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = ['*']
-CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins during development
+CORS_ALLOW_ALL_ORIGINS = True  

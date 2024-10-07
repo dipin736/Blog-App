@@ -15,7 +15,7 @@ const Profile = () => {
   const [editing, setEditing] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const { user } = useAuth();
-  const baseUrl = "http://localhost:8000";
+  const baseUrl = "ec2-3-111-33-23.ap-south-1.compute.amazonaws.com";
 
   useEffect(() => {
     const fetchProfile = async () => {
