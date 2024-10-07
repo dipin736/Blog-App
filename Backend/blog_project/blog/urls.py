@@ -1,6 +1,5 @@
-from operator import index
-from django.urls import path,re_path
-from .views import RegisterAPIView, LoginAPIView, BlogPostListCreateAPIView, BlogPostDetailAPIView, ProfileAPIView
+from django.urls import path, re_path
+from .views import RegisterAPIView, LoginAPIView, BlogPostListCreateAPIView, BlogPostDetailAPIView, ProfileAPIView, index
 
 urlpatterns = [
     path('register/', RegisterAPIView.as_view(), name='register'),
@@ -10,7 +9,7 @@ urlpatterns = [
     path('posts/<int:pk>/', BlogPostDetailAPIView.as_view(), name='post-detail'),
 ]
 
-# Add the catch-all pattern at the end
+# Catch-all for frontend routes
 urlpatterns += [
     re_path(r'^(?:.*)/?$', index),
 ]

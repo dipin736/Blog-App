@@ -141,15 +141,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # or wherever you want to collect static files
 
-# This is the directory where Django will collect all static files for production
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # A separate directory for collected files
-
-# Directories to look for static files in development (this should not include STATIC_ROOT)
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Your project's static directory
-    # Add more directories here if necessary
-]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
