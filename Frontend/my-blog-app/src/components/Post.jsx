@@ -14,7 +14,7 @@ const BlogPost = () => {
   const [author, setAuthor] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
-  const baseURL = "http://localhost:8000";
+  const baseURL = "ec2-3-111-33-23.ap-south-1.compute.amazonaws.com";
   const navigate = useNavigate();
 
   useEffect(() => {

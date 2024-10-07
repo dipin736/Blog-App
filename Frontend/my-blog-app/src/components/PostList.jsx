@@ -9,7 +9,7 @@ const BlogPostList = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
-  const baseURL = "http://localhost:8000";
+  const baseURL = "ec2-3-111-33-23.ap-south-1.compute.amazonaws.com";
 
   useEffect(() => {
     const fetchPosts = async () => {
