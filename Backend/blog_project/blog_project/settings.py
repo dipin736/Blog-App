@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'blog_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blog',
-        'USER': 'blog',
+        'NAME': 'database-1',
+        'USER': 'blogdb',
         'PASSWORD': 'blogdatabase',
-        'HOST': 'blog.c3ay86e84jnx.ap-south-1.rds.amazonaws.com',  
+        'HOST': 'database-1.c3ay86e84jnx.ap-south-1.rds.amazonaws.com',  
         'PORT': '3306',
     }
 }
