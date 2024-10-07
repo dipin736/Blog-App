@@ -32,9 +32,11 @@ RUN pip install -r ./Backend/blog_project/requirements.txt
 #Copy the frontend build to the Django project
 
 
+# Copy the frontend build to the Django project
 COPY --from=build-stage /code/Frontend/my-blog-app/dist /code/Backend/blog_project/media/
-COPY --from=build-stage /code/Frontend/my-blog-app/dist/index.html /code/Backend/blog_project/media/
-#Run Django Migration Command
+COPY --from=build-stage /code/Frontend/my-blog-app/dist/index.html /code/Backend/blog_project/blog/templates/index.html
+
+# Run Django Migration Command
 RUN python ./Backend/blog_project/manage.py migrate
 
 #Run Django Collectstatic Command

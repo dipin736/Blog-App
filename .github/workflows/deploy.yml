@@ -23,7 +23,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build and push Docker image
-      run: |
+      run : |
         docker build -t ${{ secrets.DOCKER_USERNAME }}/blog:latest .
         docker push ${{ secrets.DOCKER_USERNAME }}/blog:latest
 
@@ -37,19 +37,9 @@ jobs:
     - name: Deploy on AWS EC2 
       run: |
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.AWS_EC2_IP }} << 'EOF'
-          # Log in to Docker Hub
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          
-          # Pull the latest image
           docker pull ${{ secrets.DOCKER_USERNAME }}/blog:latest
-
-          # Stop and remove any existing containers
           docker stop blog || true
           docker rm blog || true
-
-          # Run the new container
-          docker run -d --name blog -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/blog:latest
+          docker run -d --name blog -p 80:8000 ${{ secrets.DOCKER_USERNAME }}/blog:latest
         EOF
-
-    - name: Notify Deployment Success
-      run: echo "Deployment to AWS EC2 completed successfully!"
