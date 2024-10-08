@@ -60,10 +60,15 @@ python manage.py runserver
 Access at http://127.0.0.1:8000.
 
 With Docker
+
 Build the image:
+
 docker build -t blog:latest .
+
 Run the container:
+
 docker run -p 8000:8000 blog:latest
+
 Access at http://localhost:8000.
 
 ## API Documentation (REST Endpoints)
