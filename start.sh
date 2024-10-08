@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Start Nginx in the background
+# Start Nginx
 service nginx start
 
-# Start Gunicorn
-exec gunicorn blog_project.wsgi:application --bind 0.0.0.0:8000
+# Start Gunicorn using the correct path to wsgi
+exec gunicorn blog_project.blog_project.wsgi:application --bind 0.0.0.0:8000
