@@ -15,16 +15,23 @@ The Blog Project is a simple blogging platform built using Django, allowing user
 ### Installation
 1. Clone the repository:
    git clone <repository-url>
+   
    cd blog_project
+   
 Create a virtual environment and activate it:
-Copy code
+
 python -m venv venv
+
 source venv/bin/activate  # Windows: venv\Scripts\activate
+
 Install required packages:
+
 pip install -r requirements.txt
+
 Configure database settings in blog_project/settings.py:
+
 python
-Copy code
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -35,13 +42,21 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
 Run migrations:
+
 python manage.py migrate
+
 Create a superuser:
+
 python manage.py createsuperuser
+
 Running the Application
+
 Locally
+
 python manage.py runserver
+
 Access at http://127.0.0.1:8000.
 
 With Docker
@@ -53,11 +68,17 @@ Access at http://localhost:8000.
 
 ## API Documentation (REST Endpoints)
 POST /api/register/: User registration.
+
 POST /api/login/: User login.
+
 GET /api/posts/: List all blog posts.
+
 POST /api/posts/: Create a new blog post.
+
 GET /api/posts/{id}/: Retrieve a specific blog post.
+
 PUT /api/posts/{id}/: Update a blog post.
+
 DELETE /api/posts/{id}/: Delete a blog post.
 
 ## Deployment Steps
