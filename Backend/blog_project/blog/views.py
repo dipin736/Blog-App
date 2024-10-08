@@ -12,8 +12,6 @@ def index(request):
     return render(request, 'index.html')
 
 class RegisterAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
-
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -32,8 +30,6 @@ class RegisterAPIView(APIView):
 
 
 class LoginAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
-
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')

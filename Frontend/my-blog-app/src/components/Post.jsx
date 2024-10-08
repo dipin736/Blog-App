@@ -11,10 +11,11 @@ const BlogPost = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [tags, setTags] = useState("");
   const [author, setAuthor] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
-  const baseURL = "http://ec2-3-111-33-23.ap-south-1.compute.amazonaws.com/media/blog_images/";
+  const baseURL = "http://ec2-3-111-33-23.ap-south-1.compute.amazonaws.com";
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const BlogPost = () => {
         setPost(response.data);
         setTitle(response.data.title);
         setContent(response.data.content);
+        setTags(response.data.tags);
         setAuthor(response.data.author);
         setImagePreview(`${baseURL}${response.data.image}`);
       } catch (error) {
@@ -61,6 +63,7 @@ const BlogPost = () => {
         title,
         content,
         author,
+        tags,
         image: imagePreview,
       }));
       setIsEditing(false);
@@ -109,6 +112,18 @@ const BlogPost = () => {
                 value={content}
                 onChange={setContent}
                 className="border border-gray-300 rounded-md w-full"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Tags
+              </label>
+              <input
+                type="text"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                className="border border-gray-300 rounded-md w-full p-2"
+                required
               />
             </div>
             <div className="mb-4">
@@ -168,7 +183,12 @@ const BlogPost = () => {
               className="text-lg text-gray-700 leading-relaxed mb-6"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
+            <br />
 
+            <div
+              className="text-lg text-gray-700 leading-relaxed mb-6">
+               {post.tags}
+              </div>
             {user && user.username === post.author_username && (
               <div className="flex justify-between mt-4">
                 <button

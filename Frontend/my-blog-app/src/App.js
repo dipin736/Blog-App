@@ -54,7 +54,7 @@ const App = () => {
       <nav className="bg-gray-800 p-4">
         <div className="container mx-auto flex justify-between items-center">
           <div className="text-white">
-            <Link to="/" className="mr-4 hover:text-gray-300">
+            <Link to="/posts" className="mr-4 hover:text-gray-300">
               Home
             </Link>
             <Link to="/posts" className="mr-4 hover:text-gray-300">
@@ -98,7 +98,7 @@ const App = () => {
 
       <div className="container mx-auto p-6">
         <Routes>
-          <Route path="/" element={<BlogPostList />} />
+          <Route path="/posts" element={<BlogPostList />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/posts" element={<BlogPostList />} />

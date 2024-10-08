@@ -15,7 +15,7 @@ const Profile = () => {
   const [editing, setEditing] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const { user } = useAuth();
-  const baseUrl = "http://ec2-3-111-33-23.ap-south-1.compute.amazonaws.com/media/blog_images/";
+  const baseUrl = "http://ec2-3-111-33-23.ap-south-1.compute.amazonaws.com";
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -174,7 +174,7 @@ const Profile = () => {
             </p>
             <p className="mb-2">
               <span className="font-bold">Birth Date:</span>{" "}
-              {profile.birth_date}
+              {new Date(profile.birth_date).toLocaleDateString()}
             </p>
             <button
               onClick={() => setEditing(true)}
