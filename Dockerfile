@@ -30,9 +30,9 @@ COPY ./Backend/blog_project /code/Backend/blog_project/
 RUN pip install -r ./Backend/blog_project/requirements.txt
 
 # Copy the frontend build to the Django project
-COPY --from=build-stage ./code/Frontend/my-blog-app/build /code/Backend/blog_project/static/
-COPY --from=build-stage ./code/Frontend/my-blog-app/build/static /code/Backend/blog_project/static/
-COPY --from=build-stage ./code/Frontend/my-blog-app/build/index.html /code/Backend/blog_project/blog_project/templates/index.html
+COPY --from=build-stage /code/Frontend/my-blog-app/build /code/Backend/blog_project/static/
+COPY --from=build-stage /code/Frontend/my-blog-app/build/static /code/Backend/blog_project/static/
+COPY --from=build-stage /code/Frontend/my-blog-app/build/index.html /code/Backend/blog_project/blog_project/templates/index.html
 
 # Ensure media directory exists
 RUN mkdir -p /code/Backend/blog_project/media
@@ -57,7 +57,11 @@ COPY nginx.conf /etc/nginx/sites-available/myproject
 RUN ln -s /etc/nginx/sites-available/myproject /etc/nginx/sites-enabled/
 
 # Expose the ports
-EXPOSE 80
+EXPOSE 80 8000
+
+# Create a script to start both Nginx and Gunicorn
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
 # Start Nginx and Gunicorn
-CMD service nginx start && gunicorn blog_project.wsgi:application --bind 0.0.0.0:8000
+CMD ["/start.sh"]
