@@ -1,4 +1,4 @@
-#Stage 1:Build Frontend
+# Stage 1: Build Frontend
 FROM node:18 as build-stage
 
 WORKDIR /code
@@ -7,33 +7,29 @@ COPY ./Frontend/my-blog-app/ /code/Frontend/my-blog-app/
 
 WORKDIR /code/Frontend/my-blog-app/
 
-#Installing packages
+# Installing packages
 RUN npm install
 
-#Building the frontend
+# Building the frontend
 RUN npm run build
 
 
-#Stage 2:Build Backend
+# Stage 2: Build Backend
 FROM python:3.11.0
 
-#Set Environment Variables
+# Set Environment Variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 WORKDIR /code
 
-#Copy Django Project to the container
-COPY ./Backend/blog_project  /code/Backend/blog_project/ 
+# Copy Django Project to the container
+COPY ./Backend/blog_project /code/Backend/blog_project/
 
-#Install the required packages
+# Install the required packages
 RUN pip install -r ./Backend/blog_project/requirements.txt
 
-#Copy the frontend build to the Django project
-
-
-
-#Copy the frontend build to the Django project
+# Copy the frontend build to the Django project
 COPY --from=build-stage ./code/Frontend/my-blog-app/build /code/Backend/blog_project/static/
 COPY --from=build-stage ./code/Frontend/my-blog-app/build/static /code/Backend/blog_project/static/
 COPY --from=build-stage ./code/Frontend/my-blog-app/build/index.html /code/Backend/blog_project/blog_project/templates/index.html
@@ -47,13 +43,21 @@ ENV MEDIA_ROOT=/code/Backend/blog_project/media
 # Run Django Migration Command
 RUN python ./Backend/blog_project/manage.py migrate
 
-#Run Django Collectstatic Command
+# Run Django Collectstatic Command
 RUN python ./Backend/blog_project/manage.py collectstatic --no-input
 
-#Expose the port
+# Install Nginx
+RUN apt-get update && apt-get install -y nginx
+
+# Remove default Nginx configuration
+RUN rm /etc/nginx/sites-enabled/default
+
+# Copy Nginx configuration file
+COPY nginx.conf /etc/nginx/sites-available/myproject
+RUN ln -s /etc/nginx/sites-available/myproject /etc/nginx/sites-enabled/
+
+# Expose the ports
 EXPOSE 80
 
-WORKDIR /code/Backend/blog_project
-
-#Run the Django Server
-CMD ["gunicorn","blog_project.wsgi:application","--bind","0.0.0.0:8000"]
+# Start Nginx and Gunicorn
+CMD service nginx start && gunicorn blog_project.wsgi:application --bind 0.0.0.0:8000
