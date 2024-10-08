@@ -7,8 +7,5 @@ urlpatterns = [
     path('profile/', ProfileAPIView.as_view(), name='profile'),
     path('posts/', BlogPostListCreateAPIView.as_view(), name='post-list-create'),
     path('posts/<int:pk>/', BlogPostDetailAPIView.as_view(), name='post-detail'),
-]
-
-urlpatterns += [
-    re_path(r'^(?:.*)/?$', index),
+    re_path(r'^(?:.*)/?$', index, name='index'),  
 ]

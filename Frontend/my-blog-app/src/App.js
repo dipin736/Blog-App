@@ -24,7 +24,7 @@ const App = () => {
     setAuthToken(null);
     logout();
     setShowLogoutModal(false);
-    navigate("/");
+    navigate("/posts");
   };
 
   const handleLogoutConfirmation = () => {

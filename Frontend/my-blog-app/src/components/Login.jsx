@@ -23,7 +23,7 @@ const Login = ({ onLogin }) => {
       setShowModal(true);
       setTimeout(() => {
         setShowModal(false);
-        navigate("/");
+        navigate("/posts");
       }, 2000);
     } catch (error) {
       console.error(error);

@@ -76,7 +76,7 @@ const CreatePost = () => {
           },
         });
       }
-      navigate("/");
+      navigate("/posts");
     } catch (error) {
       console.error(error);
       setErrorMessage("Error saving post.");
