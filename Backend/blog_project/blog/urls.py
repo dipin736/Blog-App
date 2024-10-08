@@ -10,5 +10,5 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    re_path(r'^(?!api/).*$', index)
+    re_path(r'^(?:.*)/?$', index),
 ]
